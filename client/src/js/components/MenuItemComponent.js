@@ -1,13 +1,18 @@
+import categories from '../../data/categories.js';
+console.log(categories);
+
 export default class MenuItemComponent extends HTMLElement {
   constructor() {
     super();
 
     this.toggle = this.toggle.bind(this);
+    this.update = this.update.bind(this);
 
     this.render();
   }
   connectedCallback() {
     this.toggleBtn.addEventListener('click', this.toggle);
+    this.updateBtn.addEventListener('click', this.update);
   }
 
   render() {
@@ -31,11 +36,13 @@ export default class MenuItemComponent extends HTMLElement {
     $updateBtn.classList = "bg-gray-50 text-gray-500 text-sm mr-1 menu-edit-button";
     $updateBtn.textContent = "수정";
     $li.appendChild($updateBtn);
+    this.updateBtn = $updateBtn;
 
     let $removeBtn = document.createElement('button');
     $removeBtn.classList = "bg-gray-50 text-gray-500 text-sm menu-remove-button";
     $removeBtn.textContent = "삭제";
     $li.appendChild($removeBtn);
+    this.removeBtn = $removeBtn;
 
     this.appendChild($li);
   }
@@ -44,14 +51,30 @@ export default class MenuItemComponent extends HTMLElement {
     this.isSoldOut = !this.isSoldOut;
   }
 
+  update() {
+    let newName = window.prompt();
+    
+    this.name = newName;
+  }
+
   static get observedAttributes() { // 이 메서드를 통해 아래 attributeChangedCallback을 실행해준다.
     console.log(0, 'get observedAttributes')
     return ['id', 'name', 'issoldout']; // 여기 없는 값은 attributeChangedCallback 에서 감지 못한다.
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    console.log(4, `attributeChangedCallback oldValue: ${oldValue}, newValue: ${newValue}`);
-    this.menuName.classList = `w-100 pl-2 menu-name ${this.isSoldOut ? 'sold-out' : ''}`
+    console.log(4, `attributeChangedCallback(${name}) oldValue: ${oldValue}, newValue: ${newValue}`);
+    switch(name) {
+      case 'issoldout':
+        this.menuName.classList = `w-100 pl-2 menu-name ${this.isSoldOut ? 'sold-out' : ''}`;
+        return;
+      case 'name':
+        this.menuName.textContent = newValue;
+        return;
+      default:
+        return;
+
+    }
   }
 
   // GET
