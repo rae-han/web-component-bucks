@@ -13,21 +13,29 @@ const menuRegister = async name => {
         name
       }),
     })
-    console.log(res);
 
-    try {
-      let response = await res.json();
-      console.log(response)
-    } catch (error) {
-      console.error(error);
-    }
     return res;
   } catch (error) {
-    console.log(error.json());
-    console.log(error.response)
+    console.log(error)
+  }
+}
+
+const menuLoad = async () => {
+  try {
+    let res = await fetch(`${API_URL}/category/espresso/menu`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+
+    return res;
+  } catch (error) {
+    console.log(error)
   }
 }
 
 export {
   menuRegister,
+  menuLoad,
 }
