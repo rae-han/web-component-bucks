@@ -27,8 +27,10 @@ router.get("/category/:category/menu", async (req, res) => {
 router.post("/category/:category/menu", async (req, res) => {
   const { category } = req.params;
   const { name } = req.body;
+  console.log(`category: ${category}, name: ${name}`);
 
   if (!menuStore.isValid({ res, category, name })) {
+    console.log('post 1');
     return;
   }
 

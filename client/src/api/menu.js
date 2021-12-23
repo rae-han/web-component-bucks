@@ -4,7 +4,7 @@ const menuRegister = async name => {
   console.log(name)
 
   try {
-    let result = await fetch(`${API_URL}/category/espresso/menu`, {
+    let res = await fetch(`${API_URL}/category/espresso/menu`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -13,11 +13,18 @@ const menuRegister = async name => {
         name
       }),
     })
+    console.log(res);
 
-    console.log(result);
-    return result;
+    try {
+      let response = await res.json();
+      console.log(response)
+    } catch (error) {
+      console.error(error);
+    }
+    return res;
   } catch (error) {
-    console.error(error);
+    console.log(error.json());
+    console.log(error.response)
   }
 }
 

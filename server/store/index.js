@@ -26,14 +26,17 @@ function Store() {
       !validator.isArray(this.menuBoard[category]) &&
       !!this.menuBoard[category]
     ) {
+      console.log(1);
       res.status(404).json({ message: "존재하지 않는 카테고리 입니다." });
       return;
     }
     if (menuId && !this.isExistMenuItem(category, menuId)) {
+      console.log(2);
       res.status(404).json({ message: "존재하지 않는 메뉴 입니다." });
       return;
     }
     if (name && !this.isValidMenuName(name)) {
+      console.log(3);
       res
         .status(400)
         .json({ message: "메뉴 이름은 최소 2글자 이상이어야 합니다." });
