@@ -1,7 +1,6 @@
 import MenuItemComponent from './components/MenuItemComponent.js';
-// import './components/SampleCounter.js';
-// import './components/MyCounter.js';
-// import './components/CustomButton.js';
+
+import { menuRegister } from '../api/menu.js'
 
 customElements.define('menu-item', MenuItemComponent);
 
@@ -13,7 +12,11 @@ const $inputMenuName = document.querySelector('#inputMenuName');
 function addMenu(e) {
   e.preventDefault();
 
+  let newMenuName = this.value;
+
+  let res =  menuRegister(newMenuName);
   
+  this.value = '';
 }
 
 $inputMenuForm.addEventListener('submit', addMenu.bind($inputMenuName));
