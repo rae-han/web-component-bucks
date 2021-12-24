@@ -7,8 +7,9 @@ customElements.define('menu-item', MenuItemComponent);
 // Elements
 const $inputMenuForm = document.querySelector('#inputMenuForm');
 const $inputMenuName = document.querySelector('#inputMenuName');
+const $menuList = document.querySelector('#menuList');
 
-// menu insert
+// insert menj
 async function addMenu(e) {
   e.preventDefault();
 
@@ -19,11 +20,7 @@ async function addMenu(e) {
     
     if(!res.ok) { throw res };
 
-    let menuList = await fetchMenu();
-    menuList = await menuList.json();
-    console.log(menuList);
-    
-
+    await fetchMenu();
   } catch (error) {
     console.error(error);
   }
@@ -33,13 +30,26 @@ async function addMenu(e) {
 
 $inputMenuForm.addEventListener('submit', addMenu.bind($inputMenuName));
 
+// select menu
 const fetchMenu = async () => {
   try {
     let res = await menuLoad();
 
+    let menu = await res.json()
+    makeMenuList(menu);
     return res;
   } catch (error) {
     console.error(error);
   }
+}
+
+// create menu item
+const makeMenuList = menu => {
+  console.log(menu)
+  console.log($menuList);
+}
+
+window.onload = () => {
+  fetchMenu();
 }
 
