@@ -1,8 +1,9 @@
-import MenuItemComponent from './components/MenuItemComponent.js';
+// import MenuItemComponent from './components/MenuItemComponent.js';
+import './components/MenuItemComponent.js';
 
 import { menuRegister, menuLoad } from '../api/menu.js'
 
-customElements.define('menu-item', MenuItemComponent);
+// customElements.define('menu-item', MenuItemComponent);
 
 // Elements
 const $inputMenuForm = document.querySelector('#inputMenuForm');
@@ -45,11 +46,21 @@ const fetchMenu = async () => {
 
 // create menu item
 const makeMenuList = menu => {
-  console.log(menu)
-  console.log($menuList);
+  // removeChildElements($menuList);
+
+  let $menuItme = document.createElement('menu-item');
+  console.dir($menuItme)
+  return $menuItme;
+
+}
+
+const removeChildElements = $el => {
+  while($el.hasChildNodes()) {
+    $el.removeChild($el.firstChild);
+  }
 }
 
 window.onload = () => {
-  fetchMenu();
+  // fetchMenu();
 }
 

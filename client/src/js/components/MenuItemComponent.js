@@ -1,7 +1,8 @@
 import categories from '../../data/categories.js';
 console.log(categories);
 
-export default class MenuItemComponent extends HTMLElement {
+// export default class MenuItemComponent extends HTMLElement {
+class MenuItemComponent extends HTMLElement {
   constructor() {
     super();
 
@@ -106,4 +107,6 @@ export default class MenuItemComponent extends HTMLElement {
     
   }
 }
+
+customElements.define('menu-item', MenuItemComponent);
 
