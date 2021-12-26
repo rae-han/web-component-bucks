@@ -1,5 +1,6 @@
 // import MenuItemComponent from './components/MenuItemComponent.js';
 import './components/MenuItemComponent.js';
+import './components/PopUpInfo.js'
 
 import { menuRegister, menuLoad } from '../api/menu.js'
 
@@ -46,12 +47,22 @@ const fetchMenu = async () => {
 
 // create menu item
 const makeMenuList = menu => {
-  // removeChildElements($menuList);
+  removeChildElements($menuList);
 
-  let $menuItme = document.createElement('menu-item');
-  console.dir($menuItme)
-  return $menuItme;
+  // let $popup = document.createElement('popup-info');
+  // console.log($popup);
 
+  // let $menuItme = document.createElement('menu-item');
+  // console.dir($menuItme);
+
+  let $menuItems = menu.map(menuItem => {
+    let $menuItem = document.createElement('menu-item');
+    return $menuItem;
+  })
+
+  $menuList.append(...$menuItems);
+
+  return $menuItems;
 }
 
 const removeChildElements = $el => {
