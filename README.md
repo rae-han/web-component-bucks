@@ -1,5 +1,8 @@
 # web-component-bucks
 
+# mdn
+https://developer.mozilla.org/ko/docs/Web/Web_Components/Using_custom_elements
+
 https://kyu.io/%ec%9b%b9-%ec%bb%b4%ed%8f%ac%eb%84%8c%ed%8a%b81-keep-calm-and-usetheplatform/
 
 https://velog.io/@design0728/Web-Component-8njgyg44

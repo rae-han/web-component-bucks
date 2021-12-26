@@ -1,17 +1,41 @@
 import categories from '../../data/categories.js';
-console.log(categories);
+
+const styles = `
+@import url("./src/css/index.css");
+
+li button {
+  width: 60px;
+  line-height: inherit;
+  cursor: pointer;
+  height: auto;
+  border: none;
+  outline: none;
+  border-radius: 2rem;
+}
+
+li button:hover {
+  background-color: rgb(229, 231, 235);
+}
+
+.sold-out {
+  text-decoration: line-through;
+  color: gray;
+}
+`;
 
 // export default class MenuItemComponent extends HTMLElement {
 class MenuItemComponent extends HTMLElement {
   constructor() {
     super();
 
-    const shadow = this.attachShadow({mode: 'open'});
-
     this.toggle = this.toggle.bind(this);
     this.update = this.update.bind(this);
-
+    
+    let shadow = this.attachShadow({mode: 'open'}); // shadow === this.shadowRoot
     this.render(shadow);
+    // console.log(this.render().content.cloneNode(true))
+    // this.shadowRoot.appendChild(this.render().content.cloneNode(true));
+
   }
   connectedCallback() {
     this.toggleBtn.addEventListener('click', this.toggle);
@@ -19,7 +43,10 @@ class MenuItemComponent extends HTMLElement {
   }
 
   render(shadow) {
-    console.log(2, 'render');
+    const template = document.createElement('template');
+    const style = document.createElement('style');
+    style.textContent = styles;
+
     let $li = document.createElement('li');
     $li.setAttribute('class', "menu-list-item d-flex items-center py-2");
 
@@ -47,7 +74,9 @@ class MenuItemComponent extends HTMLElement {
     $li.appendChild($removeBtn);
     this.removeBtn = $removeBtn;
 
+    shadow.appendChild(style);
     shadow.appendChild($li);
+    return shadow;
   }
 
   toggle() {
@@ -88,7 +117,7 @@ class MenuItemComponent extends HTMLElement {
     return this.getAttribute('name');
   }
   get isSoldOut() {
-    console.log(this.getAttribute('isSoldOut'))
+    // console.log(this.getAttribute('isSoldOut'))
     return this.getAttribute('isSoldOut') === 'true';
   }
 

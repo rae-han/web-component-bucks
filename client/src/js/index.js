@@ -13,6 +13,7 @@ const $menuList = document.querySelector('#menuList');
 
 // insert menj
 async function addMenu(e) {
+  console.log('func addMenu');
   e.preventDefault();
 
   let newMenuName = this.value;
@@ -34,6 +35,7 @@ $inputMenuForm.addEventListener('submit', addMenu.bind($inputMenuName));
 
 // select menu
 const fetchMenu = async () => {
+  console.log('func fetchMenu');
   try {
     let res = await menuLoad();
 
@@ -47,6 +49,8 @@ const fetchMenu = async () => {
 
 // create menu item
 const makeMenuList = menu => {
+  console.log('func makeMenuList');
+  console.log(menu)
   removeChildElements($menuList);
 
   // let $popup = document.createElement('popup-info');
@@ -57,6 +61,7 @@ const makeMenuList = menu => {
 
   let $menuItems = menu.map(menuItem => {
     let $menuItem = document.createElement('menu-item');
+    console.log($menuItem);
     return $menuItem;
   })
 
@@ -72,6 +77,6 @@ const removeChildElements = $el => {
 }
 
 window.onload = () => {
-  // fetchMenu();
+  fetchMenu();
 }
 
