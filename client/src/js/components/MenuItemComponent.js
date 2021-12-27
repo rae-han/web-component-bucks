@@ -1,35 +1,15 @@
-import categories from '../../data/categories.js';
+import { updateMenuCount } from '../index.js';
+import { toggleMenu, updateMenu, removeMenu } from '../../api/menu.js';
+import stylesheet from '../../data/menuItemStyle.js';
 
-const styles = `
-@import url("./src/css/index.css");
-
-li button {
-  width: 60px;
-  line-height: inherit;
-  cursor: pointer;
-  height: auto;
-  border: none;
-  outline: none;
-  border-radius: 2rem;
-}
-
-li button:hover {
-  background-color: rgb(229, 231, 235);
-}
-
-.sold-out {
-  text-decoration: line-through;
-  color: gray;
-}
-`;
-
-// export default class MenuItemComponent extends HTMLElement {
-class MenuItemComponent extends HTMLElement {
+export default class MenuItemComponent extends HTMLElement {
+// class MenuItemComponent extends HTMLElement {
   constructor() {
     super();
 
     this.toggle = this.toggle.bind(this);
     this.update = this.update.bind(this);
+    this.remove = this.remove.bind(this);
     
     let shadow = this.attachShadow({mode: 'open'}); // shadow === this.shadowRoot
     this.render(shadow);
@@ -40,11 +20,14 @@ class MenuItemComponent extends HTMLElement {
   connectedCallback() {
     this.toggleBtn.addEventListener('click', this.toggle);
     this.updateBtn.addEventListener('click', this.update);
+    this.removeBtn.addEventListener('click', this.remove);
   }
 
   render(shadow) {
-    const template = document.createElement('template');
+    // const template = document.createElement('template');
     const style = document.createElement('style');
+    style.textContent = stylesheet;
+
     shadow.appendChild(style);
 
     let $li = document.createElement('li');
@@ -78,23 +61,68 @@ class MenuItemComponent extends HTMLElement {
     return shadow;
   }
 
-  toggle() {
-    this.isSoldOut = !this.isSoldOut;
+  async toggle() {
+    const { id, category } = this;
+
+    try {
+      let res = await toggleMenu({id, category});
+
+      if(!res.ok) { throw res };
+      this.isSoldOut = !this.isSoldOut;
+
+      let jsonRes = await res.json();
+    } catch (error) {
+      console.error(error);
+    }
   }
 
-  update() {
-    let newName = window.prompt();
+  async update() {
+    const newName = window.prompt(`${this.name}의 이름을 무엇으로 바꾸시겠습니까?`);
+    const { id, category } = this;
+
+    if(newName === '') return;
+
+    try {
+      let res = await updateMenu({id, category, name: newName});
+
+      if(!res.ok) { throw res };
+      this.name = newName;
+
+      let jsonRes = await res.json();
+    } catch (error) {
+      console.error(error);
+      const { message } = await error.json();
+    }
     
-    this.name = newName;
+  }
+
+  async remove() {
+    const willRemove = window.confirm(`${this.name}을(를) 삭제하시겠습니까?`);
+    const { id, category } = this;
+    
+    if(!willRemove) {
+      return;
+    }
+
+    try {
+      let res = await removeMenu({id, category});
+      console.log(res)
+
+      if(!res.ok) { throw res };
+      updateMenuCount('decrement');
+      this.parentElement.removeChild(this);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   static get observedAttributes() { // 이 메서드를 통해 아래 attributeChangedCallback을 실행해준다.
     console.log(0, 'get observedAttributes')
-    return ['id', 'name', 'issoldout']; // 여기 없는 값은 attributeChangedCallback 에서 감지 못한다.
+    return ['id', 'name', 'issoldout', 'category']; // 여기 없는 값은 attributeChangedCallback 에서 감지 못한다.
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    console.log(4, `attributeChangedCallback(${name}) oldValue: ${oldValue}, newValue: ${newValue}`);
+    // console.log(4, `attributeChangedCallback(${name}) oldValue: ${oldValue}, newValue: ${newValue}`);
     switch(name) {
       case 'issoldout':
         this.menuName.classList = `w-100 pl-2 menu-name ${this.isSoldOut ? 'sold-out' : ''}`;
@@ -119,6 +147,9 @@ class MenuItemComponent extends HTMLElement {
     // console.log(this.getAttribute('isSoldOut'))
     return this.getAttribute('isSoldOut') === 'true';
   }
+  get category() {
+    return this.getAttribute('category');
+  }
 
   // SET
   set id(newValue) {
@@ -137,6 +168,4 @@ class MenuItemComponent extends HTMLElement {
     
   }
 }
-
-customElements.define('menu-item', MenuItemComponent);
 
