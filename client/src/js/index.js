@@ -40,6 +40,7 @@ async function addMenuItem(e) {
     updateMenuCount('increment');
   } catch (error) {
     console.error(error);
+    showError(error)
   }
 
   this.value = '';
@@ -60,6 +61,7 @@ const fetchMenuList = async category => {
     return res;
   } catch (error) {
     console.error(error);
+    showError(error)
   }
 }
 
@@ -122,12 +124,18 @@ const switchCategory = async ({target}) => {
 
 $categoryNav.addEventListener('click', switchCategory);
 
+const showError = async error => {
+  let { message } = await error.json()
+  window.alert(message);
+}
+
 // const remove
 window.onload = () => {
   fetchMenuList(current.category);
 }
 
 export {
-  updateMenuCount
+  updateMenuCount,
+  showError
 }
 

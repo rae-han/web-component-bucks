@@ -1,4 +1,4 @@
-import { updateMenuCount } from '../index.js';
+import { updateMenuCount, showError } from '../index.js';
 import { toggleMenu, updateMenu, removeMenu } from '../../api/menu.js';
 import stylesheet from '../../data/menuItemStyle.js';
 
@@ -73,6 +73,7 @@ export default class MenuItemComponent extends HTMLElement {
       let jsonRes = await res.json();
     } catch (error) {
       console.error(error);
+      showError(error)
     }
   }
 
@@ -91,7 +92,7 @@ export default class MenuItemComponent extends HTMLElement {
       let jsonRes = await res.json();
     } catch (error) {
       console.error(error);
-      const { message } = await error.json();
+      showError(error)
     }
     
   }
@@ -113,6 +114,7 @@ export default class MenuItemComponent extends HTMLElement {
       this.parentElement.removeChild(this);
     } catch (error) {
       console.error(error);
+      showError(error)
     }
   }
 
