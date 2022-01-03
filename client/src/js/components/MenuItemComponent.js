@@ -107,7 +107,6 @@ export default class MenuItemComponent extends HTMLElement {
 
     try {
       let res = await removeMenu({id, category});
-      console.log(res)
 
       if(!res.ok) { throw res };
       updateMenuCount('decrement');
@@ -119,7 +118,7 @@ export default class MenuItemComponent extends HTMLElement {
   }
 
   static get observedAttributes() { // 이 메서드를 통해 아래 attributeChangedCallback을 실행해준다.
-    console.log(0, 'get observedAttributes')
+    // console.log(0, 'get observedAttributes')
     return ['id', 'name', 'issoldout', 'category']; // 여기 없는 값은 attributeChangedCallback 에서 감지 못한다.
   }
 
@@ -161,7 +160,6 @@ export default class MenuItemComponent extends HTMLElement {
     this.setAttribute('name', newValue);
   }
   set isSoldOut(newValue) {
-    console.log('set', newValue)
     this.setAttribute('isSoldOut', newValue);
   }
 

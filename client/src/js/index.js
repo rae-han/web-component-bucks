@@ -22,7 +22,6 @@ const current = {
 
 // insert menj
 async function addMenuItem(e) {
-  console.log('func addMenuItem');
   e.preventDefault();
 
   let newMenuName = this.value;
@@ -52,7 +51,6 @@ $btnSubmit.addEventListener('click', addMenuItem.bind($inputMenuName));
 
 // select menu
 const fetchMenuList = async category => {
-  console.log('func fetchMenu');
   try {
     let res = await fetchMenu(category);
 
@@ -112,10 +110,10 @@ const switchCategory = async ({target}) => {
   const { categoryName } = target.dataset;
 
   try {
+    current.category = categoryName;
     let res = await fetchMenuList(categoryName);
     $inputMenuName.setAttribute('placeholder', target.textContent.match(/[가-힣]+/));
     $categoryName.textContent = target.textContent;
-    current.category = categoryName;
   } catch (error) {
     console.error(error);
   } 
