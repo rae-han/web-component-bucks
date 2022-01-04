@@ -34,7 +34,6 @@ const fetchMenu = async category => {
 }
 
 const toggleMenu = async menu => {
-  console.log(menu)
   const { id, category } = menu;
   try {
     let res = await fetch(`${API_URL}/category/${category}/menu/${id}/soldout`, {

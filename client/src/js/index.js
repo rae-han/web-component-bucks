@@ -44,10 +44,8 @@ async function addMenuItem(e) {
 
   this.value = '';
 }
-
 $inputMenuForm.addEventListener('submit', addMenuItem.bind($inputMenuName));
 $btnSubmit.addEventListener('click', addMenuItem.bind($inputMenuName));
-
 
 // select menu
 const fetchMenuList = async category => {
@@ -68,7 +66,8 @@ const createMenuItem = menuItem => {
   $menuItem.setAttribute('id', menuItem.id);
   $menuItem.setAttribute('name', menuItem.name);
   $menuItem.setAttribute('isSoldOut', menuItem.isSoldOut);
-  $menuItem.setAttribute('category', current.category);
+  // $menuItem.setAttribute('category', current.category);
+  $menuItem.dataset.category = current.category;
   return $menuItem;
 }
 
@@ -117,20 +116,23 @@ const switchCategory = async ({target}) => {
   } catch (error) {
     console.error(error);
   } 
-  
 }
-
 $categoryNav.addEventListener('click', switchCategory);
 
 const showError = async error => {
-  let { message } = await error.json()
+  let { message } = await error.json();
   window.alert(message);
 }
 
 // const remove
 window.onload = () => {
-  fetchMenuList(current.category);
+  // fetchMenuList(current.category);
 }
+
+window.addEventListener('load', () => {
+  fetchMenuList(current.category);
+  console.log('window load');
+});
 
 export {
   updateMenuCount,

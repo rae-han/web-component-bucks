@@ -81,7 +81,7 @@ export default class MenuItemComponent extends HTMLElement {
     const newName = window.prompt(`${this.name}의 이름을 무엇으로 바꾸시겠습니까?`);
     const { id, category } = this;
 
-    if(newName === '') return;
+    if(newName === '' || newName === null) return;
 
     try {
       let res = await updateMenu({id, category, name: newName});
@@ -133,8 +133,7 @@ export default class MenuItemComponent extends HTMLElement {
         return;
       default:
         return;
-
-    }
+    } 
   }
 
   // GET
@@ -149,7 +148,8 @@ export default class MenuItemComponent extends HTMLElement {
     return this.getAttribute('isSoldOut') === 'true';
   }
   get category() {
-    return this.getAttribute('category');
+    // return this.getAttribute('category');
+    return this.dataset.category;
   }
 
   // SET
