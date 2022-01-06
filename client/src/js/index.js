@@ -93,7 +93,7 @@ const createMenuList = menu => {
   let $menuItems = menu.map(menuItem => createMenuItem(menuItem));
   $menuList.append(...$menuItems);
 
-  updateMenuCount($menuItems.length);
+  updateMenuCount($menuItems.length ?? 0);
 
   return $menuItems;
 }
@@ -104,14 +104,12 @@ const removeChildElements = $el => {
   }
 }
 
-const switchCategory = async ({target}) => {
+const switchCategory = async ({target: { dataset: { categoryName: nextCategoryName } }, target}) => {
   if(!target.matches('#CategoryNav > .cafe-category-name')) return;
 
-  const { categoryName } = target.dataset;
-
   try {
-    current.category = categoryName;
-    let res = await fetchMenuList(categoryName);
+    current.category = nextCategoryName;
+    let res = await fetchMenuList(nextCategoryName);
     $inputMenuName.setAttribute('placeholder', target.textContent.match(/[가-힣]+/));
     $categoryName.textContent = target.textContent;
   } catch (error) {
