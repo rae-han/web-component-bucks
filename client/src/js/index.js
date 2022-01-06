@@ -51,6 +51,7 @@ $btnSubmit.addEventListener('click', addMenuItem.bind($inputMenuName));
 const fetchMenuList = async category => {
   try {
     let res = await fetchMenu(category);
+    if(!res?.ok) { throw res };
 
     let menu = await res.json()
     createMenuList(menu);

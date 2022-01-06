@@ -67,7 +67,7 @@ export default class MenuItemComponent extends HTMLElement {
     try {
       let res = await toggleMenu({id, category});
 
-      if(!res.ok) { throw res };
+      if(!res?.ok) { throw res };
       this.isSoldOut = !this.isSoldOut;
 
       let jsonRes = await res.json();
@@ -86,7 +86,7 @@ export default class MenuItemComponent extends HTMLElement {
     try {
       let res = await updateMenu({id, category, name: newName});
 
-      if(!res.ok) { throw res };
+      if(!res?.ok) { throw res };
       this.name = newName;
 
       let jsonRes = await res.json();
@@ -108,7 +108,7 @@ export default class MenuItemComponent extends HTMLElement {
     try {
       let res = await removeMenu({id, category});
 
-      if(!res.ok) { throw res };
+      if(!res?.ok) { throw res };
       updateMenuCount('decrement');
       this.parentElement.removeChild(this);
     } catch (error) {
