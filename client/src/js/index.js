@@ -53,7 +53,7 @@ const fetchMenuList = async category => {
     let res = await fetchMenu(category);
     if(!res?.ok) { throw res };
 
-    let menu = await res.json()
+    let menu = await res?.json() ?? [];
     createMenuList(menu);
     return res;
   } catch (error) {
