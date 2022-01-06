@@ -2,8 +2,8 @@ import { updateMenuCount, showError } from '../index.js';
 import { toggleMenu, updateMenu, removeMenu } from '../../api/menu.js';
 import stylesheet from '../../data/menuItemStyle.js';
 
+// incremental dom
 export default class MenuItemComponent extends HTMLElement {
-// class MenuItemComponent extends HTMLElement {
   constructor() {
     super();
 
@@ -13,7 +13,6 @@ export default class MenuItemComponent extends HTMLElement {
     
     let shadow = this.attachShadow({mode: 'open'}); // shadow === this.shadowRoot
     this.render(shadow);
-    // console.log(this.render().content.cloneNode(true))
     // this.shadowRoot.appendChild(this.render().content.cloneNode(true));
 
   }
@@ -61,6 +60,7 @@ export default class MenuItemComponent extends HTMLElement {
     return shadow;
   }
 
+  // Methods
   async toggle() {
     const { id, category } = this;
 
@@ -76,7 +76,6 @@ export default class MenuItemComponent extends HTMLElement {
       showError(error)
     }
   }
-
   async update() {
     const newName = window.prompt(`${this.name}의 이름을 무엇으로 바꾸시겠습니까?`);
     const { id, category } = this;
@@ -96,7 +95,6 @@ export default class MenuItemComponent extends HTMLElement {
     }
     
   }
-
   async remove() {
     const willRemove = window.confirm(`${this.name}을(를) 삭제하시겠습니까?`);
     const { id, category } = this;
@@ -117,13 +115,11 @@ export default class MenuItemComponent extends HTMLElement {
     }
   }
 
+  // Observer pattern
   static get observedAttributes() { // 이 메서드를 통해 아래 attributeChangedCallback을 실행해준다.
-    // console.log(0, 'get observedAttributes')
     return ['id', 'name', 'issoldout', 'category']; // 여기 없는 값은 attributeChangedCallback 에서 감지 못한다.
   }
-
   attributeChangedCallback(name, oldValue, newValue) {
-    // console.log(4, `attributeChangedCallback(${name}) oldValue: ${oldValue}, newValue: ${newValue}`);
     switch(name) {
       case 'issoldout':
         this.menuName.classList = `w-100 pl-2 menu-name ${this.isSoldOut ? 'sold-out' : ''}`;
@@ -144,7 +140,6 @@ export default class MenuItemComponent extends HTMLElement {
     return this.getAttribute('name');
   }
   get isSoldOut() {
-    // console.log(this.getAttribute('isSoldOut'))
     return this.getAttribute('isSoldOut') === 'true';
   }
   get category() {
