@@ -61,7 +61,6 @@ const updateMenu = async menu => {
         name
       })
     })
-
     return res;
   } catch (error) {
     console.log(error)

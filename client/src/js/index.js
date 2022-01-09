@@ -24,7 +24,12 @@ const current = {
 async function addMenuItem(e) {
   e.preventDefault();
 
-  let newMenuName = this.value;
+  let newMenuName = this.value.trim();
+
+  if(newMenuName === '') {
+    this.value = '';
+    return;
+  } 
 
   try {
     const res = await addMenu({
